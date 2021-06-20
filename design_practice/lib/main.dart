@@ -31,21 +31,52 @@ class _MyHomePageState extends State<MyHomePage> {
   int _ball5 = 0;
   int _ball6 = 0;
 
+  void _reset() {
+    setState(() {
+      _ball1 = 0;
+      _ball2 = 0;
+      _ball3 = 0;
+      _ball4 = 0;
+      _ball5 = 0;
+      _ball6 = 0;
+    });
+  }
+
   //버튼 누르면 45개의 숫자 중 6개만 style 보여지게 만들기
   void _randomBall() {
     setState(() {
-      List<int> newNumbers;
+      _reset();
+
+      List<int> newNumbers = [];
 
       for (int i = 0; i < 6; i++) {
+        bool chk = false;
         int tmp = Random().nextInt(45) + 1;
-        while (newNumbers.contains(tmp)) {
+        if (!newNumbers.contains(tmp)) {
+          print('$i 번째 tmp : $tmp');
+          newNumbers.add(tmp);
+          chk = true;
+        }
+
+        while (newNumbers.contains(tmp) && !chk) {
           tmp = Random().nextInt(45) + 1;
+
           if (!newNumbers.contains(tmp)) {
+            print('$i 번째 tmp : $tmp');
             newNumbers.add(tmp);
+            chk = true;
           }
         }
       }
-      _ball1 = Random().nextInt(45) + 1;
+
+      newNumbers.sort();
+      print(newNumbers.toString());
+      _ball1 = newNumbers[0];
+      _ball2 = newNumbers[1];
+      _ball3 = newNumbers[2];
+      _ball4 = newNumbers[3];
+      _ball5 = newNumbers[4];
+      _ball6 = newNumbers[5];
     });
   }
 
@@ -57,61 +88,103 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('6개 번호 자동 생성기'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '1 : "$_ball1"',
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                child: Text(
+                  '$_ball1',
                   style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  width: 20,
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
                 ),
-                Text(
-                  '2 : "$_ball2"',
+              ),
+              Container(
+                child: Text(
+                  '$_ball2',
                   style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  width: 20,
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.green,
                 ),
-                Text(
-                  '3 : "$_ball3"',
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                child: Text(
+                  '$_ball3',
                   style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '4 : "$_ball4"',
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                ),
+              ),
+              Container(
+                child: Text(
+                  '$_ball4',
                   style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  width: 20,
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.amber,
                 ),
-                Text(
-                  '5 : "$_ball5"',
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                child: Text(
+                  '$_ball5',
                   style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  width: 20,
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.indigo[200],
                 ),
-                Text(
-                  '6 : "$_ball6"',
+              ),
+              Container(
+                child: Text(
+                  '$_ball6',
                   style: Theme.of(context).textTheme.headline4,
+                  textAlign: TextAlign.center,
                 ),
-              ],
-            ),
-          ],
-        ),
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.deepPurple[300],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _randomBall,
