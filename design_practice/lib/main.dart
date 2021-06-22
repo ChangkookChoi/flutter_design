@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:design_practice/layout/map_detail.dart';
+import 'package:design_practice/layout/lotto.dart';
 import 'dart:math';
 
 void main() {
@@ -24,172 +26,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _ball1 = 0;
-  int _ball2 = 0;
-  int _ball3 = 0;
-  int _ball4 = 0;
-  int _ball5 = 0;
-  int _ball6 = 0;
-
-  void _reset() {
-    setState(() {
-      _ball1 = 0;
-      _ball2 = 0;
-      _ball3 = 0;
-      _ball4 = 0;
-      _ball5 = 0;
-      _ball6 = 0;
-    });
-  }
-
-  //버튼 누르면 45개의 숫자 중 6개만 style 보여지게 만들기
-  void _randomBall() {
-    setState(() {
-      _reset();
-
-      List<int> newNumbers = [];
-
-      for (int i = 0; i < 6; i++) {
-        bool chk = false;
-        int tmp = Random().nextInt(45) + 1;
-        if (!newNumbers.contains(tmp)) {
-          print('$i 번째 tmp : $tmp');
-          newNumbers.add(tmp);
-          chk = true;
-        }
-
-        while (newNumbers.contains(tmp) && !chk) {
-          tmp = Random().nextInt(45) + 1;
-
-          if (!newNumbers.contains(tmp)) {
-            print('$i 번째 tmp : $tmp');
-            newNumbers.add(tmp);
-            chk = true;
-          }
-        }
-      }
-
-      newNumbers.sort();
-      print(newNumbers.toString());
-      _ball1 = newNumbers[0];
-      _ball2 = newNumbers[1];
-      _ball3 = newNumbers[2];
-      _ball4 = newNumbers[3];
-      _ball5 = newNumbers[4];
-      _ball6 = newNumbers[5];
-    });
-  }
-
-  //우선 45개의 번호부터 그려줘야 한다.
-
   @override
   Widget build(BuildContext context) {
+    int _selectIndex = 0;
+
+    void _checkIndex(int index) {
+      setState(() {
+        _selectIndex = index;
+        print('$_selectIndex');
+      });
+    }
+
+    List _pages = [Maps(), Text('main'), Lotto(), Maps()];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('6개 번호 자동 생성기'),
+        title: Text(''),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                child: Text(
-                  '$_ball1',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                ),
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
-                ),
-              ),
-              Container(
-                child: Text(
-                  '$_ball2',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                ),
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.green,
-                ),
-              ),
-            ],
+      body: Center(child: _pages[_selectIndex]),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _checkIndex,
+        currentIndex: _selectIndex,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.accessibility),
+            label: 'Main',
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                child: Text(
-                  '$_ball3',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                ),
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.blue,
-                ),
-              ),
-              Container(
-                child: Text(
-                  '$_ball4',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                ),
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.amber,
-                ),
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                child: Text(
-                  '$_ball5',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                ),
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.indigo[200],
-                ),
-              ),
-              Container(
-                child: Text(
-                  '$_ball6',
-                  style: Theme.of(context).textTheme.headline4,
-                  textAlign: TextAlign.center,
-                ),
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.deepPurple[300],
-                ),
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _randomBall,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }
