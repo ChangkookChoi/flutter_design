@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:design_practice/layout/map_detail.dart';
 import 'package:design_practice/layout/lotto.dart';
+import 'package:design_practice/layout/lottoGenerator.dart';
 import 'dart:math';
 
 void main() {
@@ -26,18 +27,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectIndex = 0;
+
+  void _checkIndex(int index) {
+    setState(() {
+      _selectIndex = index;
+      print('$_selectIndex');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    int _selectIndex = 0;
-
-    void _checkIndex(int index) {
-      setState(() {
-        _selectIndex = index;
-        print('$_selectIndex');
-      });
-    }
-
-    List _pages = [Maps(), Text('main'), Lotto(), Maps()];
+    List _pages = [Text('main'), Lotto(), Maps()];
 
     return Scaffold(
       appBar: AppBar(
@@ -53,12 +54,12 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Main',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.apps),
+            label: 'lotto',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: 'Map',
+            label: 'Maps',
           ),
         ],
       ),
